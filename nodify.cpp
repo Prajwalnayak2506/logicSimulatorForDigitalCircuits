@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <unordered_map>
 using namespace std;
 class Node;
 class Node{
@@ -20,9 +21,9 @@ public:
  }
 };
 void nodeMaker(vector<int> gate_id, vector<int> gate_type, vector<vector<int>> inputs, vector<int> outputs){
-    vector<Node> allGates;
+    unordered_map<int, Node> circuitOutputs;
     for(int i = 0;i< gate_id.size();i++){
         Node gate(gate_id[i],gate_type[i],inputs[i],outputs[i]);
-        allGates.push_back(gate);
+        circuitOutputs[gate.output] = gate;
     }
 }
