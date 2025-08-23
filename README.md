@@ -131,7 +131,9 @@ Each line represents a test vector of inputs (0 or 1):
 g++ -std=c++17 parser.cpp nodify.cpp graphiphy.cpp levelizer.cpp simulator.cpp -o my_parser
 ```
 ### Run
+```bash
 ./my_parser
+```
 Outputs will appear in sim_output.txt.
 
 ### Sample Input
