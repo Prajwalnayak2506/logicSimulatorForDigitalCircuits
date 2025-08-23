@@ -8,11 +8,11 @@ using namespace std;
 void nodeMaker(vector<int> gate_id, vector<int> gate_type, vector<vector<int>> inputs, vector<int> outputs){
     unordered_map<int, Node*> circuitOutputs;
     vector<Node*> OverAllOutputs;
-     for (int i=0;i < outputs.size();i++){
-        cout << gate_id[i] << ": " << gate_type[i] << " | OUTPUT : " << outputs[i] << "| INPUTS : "<<inputs[i][0] << " and " <<inputs[i][1];
-        cout << "\n----------------------\n";
-        Node* gate = new Node(gate_id[i],gate_type[i],inputs[i],outputs[i]);
-    }
+    //  for (int i=0;i < outputs.size();i++){
+    //     cout << gate_id[i] << ": " << gate_type[i] << " | OUTPUT : " << outputs[i] << "| INPUTS : "<<inputs[i][0] << " and " <<inputs[i][1];
+    //     cout << "\n----------------------\n";
+    //     // Node* gate = new Node(gate_id[i],gate_type[i],inputs[i],outputs[i]);
+    // }
     for(int i = 0;i< gate_id.size();i++){
         if(gate_type[i]==1){
             Node* gate = new Node(gate_id[i],gate_type[i],inputs[i],outputs[i]);
@@ -49,5 +49,5 @@ void nodeMaker(vector<int> gate_id, vector<int> gate_type, vector<vector<int>> i
     for(int i=0;i<OverAllOutputs.size();i++){
         cout << "OUTPUT "<<i+1<<" has ID "<<OverAllOutputs[i]->id<<"and inputs: "<<(OverAllOutputs[i]->inputs)[0]<<" and "<<(OverAllOutputs[i]->inputs)[1]<<"\n";
     }
-    // buildGraph(circuitOutputs);
+    buildGraph(circuitOutputs,OverAllOutputs);
 }
