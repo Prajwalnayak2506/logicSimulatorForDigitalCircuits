@@ -19,3 +19,10 @@ public:
     output = NodeOutput;
  }
 };
+void nodeMaker(vector<int> gate_id, vector<int> gate_type, vector<vector<int>> inputs, vector<int> outputs){
+    vector<Node> allGates;
+    for(int i = 0;i< gate_id.size();i++){
+        Node gate(gate_id[i],gate_type[i],inputs[i],outputs[i]);
+        allGates.push_back(gate);
+    }
+}
