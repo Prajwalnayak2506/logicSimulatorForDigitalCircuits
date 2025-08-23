@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cctype>
 #include "gatesIdentifier.h"
+#include "nodify.h"
 using namespace std;
 void removeAllWhitespace(string& str) {
     str.erase(std::remove_if(str.begin(), str.end(), ::isspace), str.end());
@@ -17,10 +18,12 @@ int main() {
         return 1;
     }
 // when file is found and is readable : 
+        vector<int> gate_id;
         vector<int> gate_type;
         vector<vector<int>> inputs;
         vector<int> outputs;
     string line;
+    int count = 0;
     while (getline(inputFile, line)) { //reads one line and feeds it to the variable named line in the form of a string
         if(line[0]=='#'|| line.empty()){ //ignore comments and empty lines
             continue;
@@ -41,6 +44,7 @@ int main() {
             int n1 = stoi(line.substr(gate_close_pos+1,input1-(gate_close_pos+1)));
             int n2 = stoi(line.substr(input1+1,input2-input1-1));
             vector<int> in;
+            gate_id.push_back(count);
             in.push_back(n1);
             in.push_back(n2);
             inputs.push_back(in);
@@ -59,7 +63,10 @@ int main() {
             in.push_back(n);
             outputs.push_back(n);
             inputs.push_back(in);
+            gate_id.push_back(count);
          }       
+         count++;
     }
     inputFile.close();
+    nodeMaker(gate_id,gate_type,inputs,outputs);
 }
