@@ -102,14 +102,17 @@ void simulation(unordered_map<int,Node*>& circuitMap,vector<Node*> OverallOutput
         }
         for(auto* node : levelizedNodes) {
             if(node->type != 0) {
-                int in1 = node->parents.size() > 0 ? node->parents[0]->output : 0;
-                int in2 = node->parents.size() > 1 ? node->parents[1]->output : 0;
+                int in1 = node->parents.size() > 0 ? node->parents[0]->evaluate : 0;
+                int in2 = node->parents.size() > 1 ? node->parents[1]->evaluate : 0;
                 node->evaluate = evaluateGate(node->type, in1, in2);
             }
         }
         for(auto* node : OverallOutputs) {
             results << node->evaluate;
+            cout<<node->evaluate;
         }
+        cout<<"\n";
+        
         results << "\n";
     }
 
