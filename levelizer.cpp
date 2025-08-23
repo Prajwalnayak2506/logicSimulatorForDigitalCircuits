@@ -3,6 +3,7 @@
 #include "node.h"
 #include <queue>
 #include <algorithm>
+#include "simulator.h"
 using namespace std;
 // void printGraphLevels(unordered_map<int, Node*>& circuitMap) {
 //     int node_count = 0;
@@ -67,4 +68,5 @@ void levelize(unordered_map<int,Node*>& circuitMap,vector<Node*> OverallOutputs)
         OverallOutputs[i]->level = parent->level + 1;
     }
     // printGraphLevels(circuitMap);
+    simulation(circuitMap,OverallOutputs);
 }

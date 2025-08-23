@@ -11,7 +11,7 @@ public:
     int level = -1;
     vector<Node*> children;
     vector<Node*> parents;
-
+    int evaluate = -1;
     Node(int nodeId, int nodeType, vector<int> nodeInputs, int NodeOutput) {
         id = nodeId;
         type = nodeType;
