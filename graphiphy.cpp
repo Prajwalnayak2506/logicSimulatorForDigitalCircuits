@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <string>
 #include "node.h"
+#include "levelizer.h"
 using namespace std;
 // void printGraph(unordered_map<int, Node*>& circuitMap) {
 //     int node_count = 0;
@@ -41,8 +42,10 @@ void buildGraph(unordered_map<int,Node*>& circuitMap,vector<Node*> OverallOutput
     for (auto& gate_value : circuitMap){
         Node* gate = gate_value.second;
         for (int in : gate->inputs) {
-            if(in == -1)
+            if(in == -1){
+            gate->level=0;
             continue;
+            }
         gate->parents.push_back(circuitMap[in]);
         circuitMap[in]->children.push_back(gate);
     }   
@@ -57,5 +60,5 @@ for (int i=0;i<OverallOutputs.size();i++){
 }}
 //testing
 // printGraph(circuitMap);
-
+levelize(circuitMap,OverallOutputs);
 }

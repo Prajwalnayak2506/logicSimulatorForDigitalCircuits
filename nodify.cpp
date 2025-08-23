@@ -26,28 +26,28 @@ void nodeMaker(vector<int> gate_id, vector<int> gate_type, vector<vector<int>> i
     
 
     //testing
-   int node_count = 0;
-    for (auto& pair : circuitOutputs) {
-    cout<<"node counter : "<<node_count<<"\n";
-    Node* gate = pair.second; // get the Node*
-    cout << "Node ID: " << gate->id << "\n";
-    cout << "Type: " << gate->type << "\n";
-    cout << "Output: " << gate->output << "\n";
-    cout << "Inputs: ";
-    for (int in : gate->inputs) {
-        cout << in << " ";
-    }
-    cout << "\n----------------------\n";
+//    int node_count = 0;
+//     for (auto& pair : circuitOutputs) {
+//     cout<<"node counter : "<<node_count<<"\n";
+//     Node* gate = pair.second; // get the Node*
+//     cout << "Node ID: " << gate->id << "\n";
+//     cout << "Type: " << gate->type << "\n";
+//     cout << "Output: " << gate->output << "\n";
+//     cout << "Inputs: ";
+//     for (int in : gate->inputs) {
+//         cout << in << " ";
+//     }
+//     cout << "\n----------------------\n";
 
-    node_count++;
-}
-    cout << "\n----------------------\n";
-    cout << "\n----------------------\n";
-    cout << "\n----------------------\n";
-    cout << "\n----------------------\n";
-    cout << "\n----------------------\n";
-    for(int i=0;i<OverAllOutputs.size();i++){
-        cout << "OUTPUT "<<i+1<<" has ID "<<OverAllOutputs[i]->id<<"and inputs: "<<(OverAllOutputs[i]->inputs)[0]<<" and "<<(OverAllOutputs[i]->inputs)[1]<<"\n";
-    }
+//     node_count++;
+// }
+//     cout << "\n----------------------\n";
+//     cout << "\n----------------------\n";
+//     cout << "\n----------------------\n";
+//     cout << "\n----------------------\n";
+//     cout << "\n----------------------\n";
+//     for(int i=0;i<OverAllOutputs.size();i++){
+//         cout << "OUTPUT "<<i+1<<" has ID "<<OverAllOutputs[i]->id<<"and inputs: "<<(OverAllOutputs[i]->inputs)[0]<<" and "<<(OverAllOutputs[i]->inputs)[1]<<"\n";
+//     }
     buildGraph(circuitOutputs,OverAllOutputs);
 }
