@@ -27,13 +27,13 @@ This project implements a **digital logic simulator** in C++ capable of simulati
 ---
 
 ## File Structure
-├── main.cpp # Driver code
-├── node.h / node.cpp # Node class definition
-├── graph.h / graph.cpp # Graph construction & levelization
-├── simulator.cpp # Simulation logic
-├── testbench.txt # Test vectors
-├── sim_output.txt # Simulation output
-└── README.md # Documentation & report
+├── main.cpp # Driver code<br>
+├── node.h / node.cpp # Node class definition<br>
+├── graph.h / graph.cpp # Graph construction & levelization<br>
+├── simulator.cpp # Simulation logic<br>
+├── testbench.txt # Test vectors<br>
+├── sim_output.txt # Simulation output<br>
+└── README.md # Documentation & report<br>
 
 
 ---
@@ -106,16 +106,16 @@ Each line represents a test vector of inputs (0 or 1):
 
 ## Testbench Format
 
-Each line represents a test vector of inputs (0 or 1):
-00000
-00100
-10000
-00001
-11100
-01010
-10010
-10101
-11101
+Each line represents a test vector of inputs (0 or 1):<br>
+00000<br>
+00100<br>
+10000<br>
+00001<br>
+11100<br>
+01010<br>
+10010<br>
+10101<br>
+11101<br>
 
 
 - Inputs correspond to input nodes sorted by ID.
@@ -137,15 +137,15 @@ g++ -std=c++17 parser.cpp nodify.cpp graphiphy.cpp levelizer.cpp simulator.cpp -
 Outputs will appear in sim_output.txt.
 
 ### Sample Input
-00000
-00100
-10000
+00000<br>
+00100<br>
+10000<br>
 
 
-The sim_output.txt might contain:
-01
-11
-10
+The sim_output.txt might contain:<br>
+01<br>
+11<br>
+10<br>
 (Depends on the circuit defined in your .bench file.)
 
 
