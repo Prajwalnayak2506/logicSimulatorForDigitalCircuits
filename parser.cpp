@@ -10,7 +10,7 @@ using namespace std;
 void removeAllWhitespace(string& str) {
     str.erase(std::remove_if(str.begin(), str.end(), ::isspace), str.end());
 }
-int main() {
+int parsingHere() {
   ifstream inputFile("c17.bench");
 //   if file cant be opened then :
  if (!inputFile.is_open()) {

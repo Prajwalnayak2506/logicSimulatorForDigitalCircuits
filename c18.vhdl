@@ -9,7 +9,7 @@ use ieee.std_logic_1164.all;
 -- The signal names (N1, N2, etc.) correspond to the numbers in the .bench file.
 entity c17 is
   port (
-    N1  : in  std_logic;
+    N1  : in  std_logic_vector(3 downto 0);
     N2  : in  std_logic;
     N3  : in  std_logic;
     N6  : in  std_logic;
@@ -33,7 +33,7 @@ begin
 
   -- Gate instantiations using concurrent signal assignments.
   -- Each line corresponds to a gate in the .bench file.
-  N10 <= N1 nand N3;  -- 10 = NAND(1, 3)
+  N10 <= N1(0) nand N3;  -- 10 = NAND(1, 3)
   N11 <= N3 nand N6;  -- 11 = NAND(3, 6)
   N16 <= N2 nand N11; -- 16 = NAND(2, 11)
   N19 <= N11 nand N7; -- 19 = NAND(11, 7)

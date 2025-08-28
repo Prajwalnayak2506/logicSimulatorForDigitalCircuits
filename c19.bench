@@ -1,0 +1,24 @@
+# my_circuit
+# 8 inputs
+# 4 outputs
+# 0 inverters
+# 4 gates ( 2 ANDs 1 OR 1 XOR )
+
+INPUT(1)
+INPUT(2)
+INPUT(3)
+INPUT(4)
+INPUT(5)
+INPUT(6)
+INPUT(7)
+INPUT(8)
+
+OUTPUT(9)
+OUTPUT(10)
+OUTPUT(11)
+OUTPUT(12)
+
+12 = AND(1, 8)
+11 = OR(2, 7)
+10 = XOR(3, 6)
+9 = AND(4, 5)
