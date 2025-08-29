@@ -50,18 +50,14 @@ int getSignalId(const string& signalName, map<string, int>& signalMap, int& next
     if (signalMap.find(signalName) == signalMap.end()) {
         signalMap[signalName] = nextId++;
     }
-    cout<<"signalName :"<<signalName<<" :"<<signalMap[signalName]<<endl;
+    // cout<<"signalName :"<<signalName<<" :"<<signalMap[signalName]<<endl;
     return signalMap[signalName];
 }
-void vectorHadler(string& line,string& dir, int left, int right, map<string, int>& signalMap, int& nextId, string& portName, vector<int>& input_ids,vector<int>& output_ids){
+void vectorHadler(string& direction, string& line,string& dir, int left, int right, map<string, int>& signalMap, int& nextId, string& portName, vector<int>& input_ids,vector<int>& output_ids, vector<int>& signal_ids){
     if (toUpper(dir) == "DOWNTO") {
                             for (int i = left; i >= right; --i) {
                             //    cout<<line<<endl;
-                               stringstream ss(line);
-                               string portNamesStr, colon, direction, type;
-                               getline(ss, portNamesStr, ':');
-                               ss >> direction; 
-                               vector<string> portNames = split(trim(portNamesStr), ','); 
+                               vector<string> portNames = split(trim(portName), ','); 
                             //    cout<< portNamesStr<<endl;
                             //    for (const auto& name : portNames) {
                             //         cout << name << endl;
@@ -70,24 +66,30 @@ void vectorHadler(string& line,string& dir, int left, int right, map<string, int
                                     //    cout<<"hi"<<endl; checking if this is working during debugging
                                     for (const auto& name : portNames) {
                                          string bitName = name + "(" + to_string(i) + ")";
-                                         cout << bitName << endl;
+                                        //  cout << bitName << endl;
                                          input_ids.push_back(getSignalId(bitName, signalMap, nextId));
                                        }
-                                   } else if (toUpper(direction) == "OUT") {
+                                   }
+                                   else if (toUpper(direction) == "OUT") {
                                    for (const auto& name : portNames) {
                                         string bitName = name + "(" + to_string(i) + ")";
-                                         cout << bitName << endl;
+                                        //  cout << bitName << endl;
                                         output_ids.push_back(getSignalId(bitName, signalMap, nextId));
                                       }      
-                                 }
+                                 
+}
+                                      else if (toUpper(direction) == "SIGNAL") {
+                                   for (const auto& name : portNames) {
+                                        string bitName = name + "(" + to_string(i) + ")";
+                                        //  cout << bitName << endl;
+                                        signal_ids.push_back(getSignalId(bitName, signalMap, nextId));
+                                      }      
+                                 
+                                     }
                              }       
                              } else if (toUpper(dir) == "TO") {
                               for (int i = left; i <= right; ++i) {
-                                 stringstream ss(line);
-                               string portNamesStr, colon, direction, type;
-                               getline(ss, portNamesStr, ':');
-                               ss >> direction; 
-                               vector<string> portNames = split(trim(portNamesStr), ','); 
+                               vector<string> portNames = split(trim(portName), ','); 
                             //    cout<< portNamesStr<<endl;
                             //    for (const auto& name : portNames) {
                             //         cout << name << endl;
@@ -96,18 +98,26 @@ void vectorHadler(string& line,string& dir, int left, int right, map<string, int
                                     //    cout<<"hi"<<endl; checking if this is working during debugging
                                     for (const auto& name : portNames) {
                                          string bitName = name + "(" + to_string(i) + ")";
-                                         cout << bitName << endl;
+                                        //  cout << bitName << endl;
                                          input_ids.push_back(getSignalId(bitName, signalMap, nextId));
                                        }
                                    } else if (toUpper(direction) == "OUT") {
                                    for (const auto& name : portNames) {
                                         string bitName = name + "(" + to_string(i) + ")";
-                                         cout << bitName << endl;
+                                        //  cout << bitName << endl;
                                         output_ids.push_back(getSignalId(bitName, signalMap, nextId));
                                       }      
                                  }
-                              }
-                            }
+                                 else if (toUpper(direction) == "SIGNAL") {
+                                   for (const auto& name : portNames) {
+                                        string bitName = name + "(" + to_string(i) + ")";
+                                        //  cout << bitName << endl;
+                                        signal_ids.push_back(getSignalId(bitName, signalMap, nextId));
+                            }      
+                                 
+                        }
+                    }
+                }
 
 }
 void parseVHDL(ifstream& vhdlFile,
@@ -116,7 +126,8 @@ void parseVHDL(ifstream& vhdlFile,
                vector<int>& output_ids,
                vector<Gate>& gates,
                map<string, int>& signalMap,
-               int& nextId) {
+               int& nextId,
+            vector<int>& signal_ids) {
 
     string line;
     bool inEntity = false;
@@ -161,7 +172,11 @@ void parseVHDL(ifstream& vhdlFile,
                         stringstream ss(range);
                         ss >> left >> dir >> right; 
                         // cout<<left<<" "<<dir<<right<<endl;
-                        vectorHadler(line,dir,left,right,signalMap,nextId,portName,input_ids,output_ids);
+                        string rest = trim(line.substr(line.find(':')+1,open-line.find(':')-1));
+                        stringstream sp(rest);
+                        string direction ;
+                        sp>>direction;
+                        vectorHadler(direction,line, dir, left,right,signalMap,nextId,portName,input_ids,output_ids,signal_ids);
                     }
                     else{
                     stringstream ss(line);
@@ -188,20 +203,73 @@ void parseVHDL(ifstream& vhdlFile,
         }
         if (inArchitecture) {
             size_t assignPos = line.find("<=");
+            size_t singalChecker = upperLine.find("SIGNAL");
+            // cout<<singalChecker<<endl;
+            if(singalChecker!=string::npos){
+                // cout<<"hi"<<endl;
+                // LAST WORKED TILL HERE-- SETTING UP SIGNAL IDENTIFICATION AND GIVING THEM ID'S
+                  if(upperLine.find("VECTOR")!= string::npos){
+                        cout<<"there is a vector in line : "<<line<<endl;
+                        string portName = trim(line.substr(0, line.find(':')));
+                        size_t open = line.find('(');
+                        size_t close = line.find(')');
+                        string range = trim(line.substr(open + 1, close - open - 1));
+                        // cout<<range<<endl;
+                        // cout<<portName<<endl;
+                        int left, right;
+                        string type, rest;
+                        string dir;
+                        stringstream ss(range);
+                        ss >> left >> dir >> right; 
+                        stringstream sp(portName);
+                        getline(sp, type, ' ');  
+                        getline(sp, rest);       
+                        if (!rest.empty() && rest[0] == ' ')
+                        rest.erase(0, rest.find_first_not_of(' '));
+                        // cout << "type = [" << type << "]\n";
+                        // cout << "rest = [" << rest << "]\n";
+                        // cout<<"type of "<<signalName<<" is :"<<type<<endl;
+                        // cout<<left<<" "<<dir<<right<<endl;
+                        string typeOfSignal = "SIGNAL";
+                        vectorHadler(typeOfSignal,line,dir,left,right,signalMap,nextId,rest,input_ids,output_ids,signal_ids);
+                    }
+                    else{
+                    stringstream ss(line);
+                    string portNamesStr, colon, direction, type; 
+                    getline(ss, portNamesStr, ':');
+                    ss >> direction; 
+                    vector<string> portNames = split(trim(portNamesStr), ','); 
+                    if (toUpper(trim(direction)) == "IN") {
+                        for (const auto& name : portNames) {
+                            input_ids.push_back(getSignalId(name, signalMap, nextId));
+                        }
+                    } else if (toUpper(direction) == "OUT") {
+                        for (const auto& name : portNames) {
+                            output_ids.push_back(getSignalId(name, signalMap, nextId));
+                        }      
+                    }
+                }        
+            }
             if (assignPos != string::npos) {
                 Gate currentGate;
                 string outputName = trim(line.substr(0, assignPos));
                 currentGate.output_id = getSignalId(outputName, signalMap, nextId);
+                // cout<<outputName<<""<<endl;
                 string logicPart = trim(line.substr(assignPos + 2));
                 if (logicPart.back() == ';') {
                     logicPart.pop_back();
                 }
                 string logicUpper = toUpper(logicPart);
-                vector<string> gateKeywords = {"NAND", "NOR", "AND", "XNOR", "XOR","NOT", "OR"};
-                string foundKeyword;
+                vector<string> gateKeywords = {"NAND", "NOR", "AND", "XNOR", "XOR", "OR"};
+                string foundKeyword,foundNot;
                 for(const auto& keyword : gateKeywords) {
                     if (logicUpper.find(keyword) != string::npos) {
                         foundKeyword = keyword;
+                        break;
+                    }
+                    else if(logicUpper.find("NOT")!= string::npos){
+                        foundNot = "NOT";
+                        // cout<<logicUpper<<endl;
                         break;
                     }
                 }
@@ -215,9 +283,18 @@ void parseVHDL(ifstream& vhdlFile,
                     // cout<<input3_str<<endl;
                     currentGate.input_ids.push_back(getSignalId(input1_str, signalMap, nextId));
                     currentGate.input_ids.push_back(getSignalId(input3_str, signalMap, nextId));
-                    
                     gates.push_back(currentGate);
                 }
+                else if(!foundNot.empty()){
+                    currentGate.type = foundNot;
+                    // cout<<logicUpper<<endl; 
+                    size_t startPos = logicUpper.find('(');
+                    size_t endPos = logicUpper.find(')');
+                    string input1_str = trim(logicPart.substr(startPos+1, endPos-startPos-1));
+                    cout<<input1_str<<endl;
+                    currentGate.input_ids.push_back(getSignalId(input1_str, signalMap, nextId));
+                    gates.push_back(currentGate);
+                 }
             }
             else if (upperLine.find("PORT MAP") != string::npos) {
                 Gate currentGate;
@@ -250,8 +327,7 @@ void parseVHDL(ifstream& vhdlFile,
                 gates.push_back(currentGate);
             }
         }
-    }
-}
+    }}
 
 void writeBench(ofstream& benchFile,
                 const string& circuitName,
@@ -284,7 +360,7 @@ void writeBench(ofstream& benchFile,
     benchFile << gateSummary.str() << endl << endl;
 
     for (int id : input_ids) {
-        cout<<id<<endl;
+        // cout<<id<<endl;
         benchFile << "INPUT(" << id << ")" << endl;
     }
     benchFile << endl;
@@ -325,12 +401,13 @@ int main() {
 
     string circuitName;
     vector<int> input_ids;
+    vector<int> signal_ids;
     vector<int> output_ids;
     vector<Gate> gates;
     map<string, int> signalMap;
     int nextSignalId = 1;
 
-    parseVHDL(vhdlFile, circuitName, input_ids, output_ids, gates, signalMap, nextSignalId);
+    parseVHDL(vhdlFile, circuitName, input_ids, output_ids, gates, signalMap, nextSignalId, signal_ids);
     vhdlFile.close();
 
     ofstream benchFile(benchFileName);

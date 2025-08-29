@@ -1,0 +1,14 @@
+# my_circuit
+# 3 inputs
+# 1 outputs
+# 0 inverters
+# 2 gates ( 1 AND 1 OR )
+
+INPUT(1)
+INPUT(2)
+INPUT(3)
+
+OUTPUT(4)
+
+5 = AND(1, 2)
+4 = OR(5, 3)
