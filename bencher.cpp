@@ -290,7 +290,7 @@ void parseVHDL(ifstream& vhdlFile,
                     currentGate.type = foundNot;
                     // cout<<logicUpper<<endl; 
                     size_t startPos = logicUpper.find('(');
-                    size_t endPos = logicUpper.find(')');
+                    size_t endPos = logicUpper.rfind(')');
                     string input1_str = trim(logicPart.substr(startPos+1, endPos-startPos-1));
                     cout<<input1_str<<endl;
                     currentGate.input_ids.push_back(getSignalId(input1_str, signalMap, nextId));

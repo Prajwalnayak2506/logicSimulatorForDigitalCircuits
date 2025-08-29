@@ -23,7 +23,7 @@ begin
     Y(2) <= A(2) xor B(2);
 
     -- Intermediate signal for the NAND operation
-    C <= A(3) and B(3);
-    Y(3) <= not(C); -- Added missing semicolon
+    C(1) <= A(3) and B(3);
+    Y(3) <= not(C(1)); -- Added missing semicolon
     
 end Structural;
