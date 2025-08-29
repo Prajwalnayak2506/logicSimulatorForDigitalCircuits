@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <map>
 #include <cctype>
+#include "parser.h"
 using namespace std;
 
 struct Gate {
@@ -418,9 +419,8 @@ int main() {
 
     writeBench(benchFile, circuitName, input_ids, output_ids, gates);
     benchFile.close();
-
     cout << "Conversion successful!" << endl;
     cout << "Converted " << vhdlFileName << " to " << benchFileName << endl;
-
+    parsingHere(benchFileName);
     return 0;
 }

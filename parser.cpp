@@ -10,8 +10,8 @@ using namespace std;
 void removeAllWhitespace(string& str) {
     str.erase(std::remove_if(str.begin(), str.end(), ::isspace), str.end());
 }
-int parsingHere() {
-  ifstream inputFile("c17.bench");
+int parsingHere(string& filename) {
+  ifstream inputFile(filename);
 //   if file cant be opened then :
  if (!inputFile.is_open()) {
         cerr << "Error: Could not open the file." << std::endl;
