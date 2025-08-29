@@ -288,12 +288,13 @@ void parseVHDL(ifstream& vhdlFile,
                 }
                 else if(!foundNot.empty()){
                     currentGate.type = foundNot;
-                    // cout<<logicUpper<<endl; 
-                    size_t startPos = logicUpper.find('(');
-                    size_t endPos = logicUpper.rfind(')');
-                    string input1_str = trim(logicPart.substr(startPos+1, endPos-startPos-1));
+                    cout<<logicUpper<<endl; 
+                    stringstream ss(logicUpper);
+                    string gateTypeNot;
+                    string input1_str;
+                    ss>>gateTypeNot>>input1_str;
                     cout<<input1_str<<endl;
-                    currentGate.input_ids.push_back(getSignalId(input1_str, signalMap, nextId));
+                    currentGate.input_ids.push_back(getSignalId(trim(input1_str), signalMap, nextId));
                     gates.push_back(currentGate);
                  }
             }

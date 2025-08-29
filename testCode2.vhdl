@@ -24,6 +24,6 @@ begin
 
     -- Intermediate signal for the NAND operation
     C(1) <= A(3) and B(3);
-    Y(3) <= not(C(1)); -- Added missing semicolon
+    Y(3) <= not C(1); -- Added missing semicolon
     
 end Structural;
