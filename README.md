@@ -109,7 +109,7 @@ For a circuit with 3 inputs (`INPUT(1)`, `INPUT(2)`, `INPUT(3)`), the testbench 
 ```
 
 ### Example Walkthrough
-1.  **VHDL file ():**
+1.  **VHDL file (`testCode1.vhdl`):**
 ```
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
